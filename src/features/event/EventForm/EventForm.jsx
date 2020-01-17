@@ -10,9 +10,22 @@ class EventForm extends Component {
         hostedBy: ''
     };
 
+    componentDidMount() {
+      if (this.props.selectedEvent !== null) {
+        this.setState({
+          ...this.props.selectedEvent
+        })
+      }
+    }
+
+
     handleFormSubmit = evt => {
         evt.preventDefault();
-        this.props.createEvent(this.state);
+        if(this.state.id){
+          this.props.updateEvent(this.state);
+        } else {
+          this.props.createEvent(this.state);
+        }
 
     };
 
@@ -21,6 +34,7 @@ class EventForm extends Component {
             [name]: value
         });
     };
+
     render() {
         const {cancelFormOpen} = this.props;
         const {title, date, city, venue, hostedBy} = this.state;
@@ -48,21 +62,24 @@ class EventForm extends Component {
                         <input 
                              name='city' 
                              onChange={this.handleInputChange} 
-                             value={city}placeholder="City event is taking place" />
+                             value={city}
+                             placeholder="City event is taking place" />
                       </Form.Field>
                       <Form.Field>
                         <label>Venue</label>
                         <input 
                              name='venue' 
                              onChange={this.handleInputChange} 
-                             value={venue}placeholder="Enter the Venue of the event" />
+                             value={venue}
+                             placeholder="Enter the Venue of the event" />
                       </Form.Field>
                       <Form.Field>
                         <label>Hosted By</label>
                         <input 
                              name='hostedBy' 
                              onChange={this.handleInputChange} 
-                             value={hostedBy}placeholder="Enter the name of person hosting" />
+                             value={hostedBy}
+                             placeholder="Enter the name of person hosting" />
                       </Form.Field>
                       <Button positive type="submit">
                         Submit
